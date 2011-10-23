@@ -1,13 +1,10 @@
 <?php
-
-namespace WebSocket;
-
 /**
  * Simple WebSockets server
  *
  * @author Nico Kaiser <nico@kaiser.me>
  */
-class Server extends Socket
+class WebSocket_Server extends WebSocket_Socket
 {   
     private $clients = array();
 
@@ -29,12 +26,13 @@ class Server extends Socket
                 $application->onTick();
             }
             foreach ($changed_sockets as $socket) {
+                $this->log($socket);
                 if ($socket == $this->master) {
                     if (($ressource = socket_accept($this->master)) < 0) {
                         $this->log('Socket error: ' . socket_strerror(socket_last_error($ressource)));
                         continue;
                     } else {
-                        $client = new Connection($this, $ressource);
+                        $client = new WebSocket_Connection($this, $ressource);
                         $this->clients[$ressource] = $client;
                         $this->allsockets[] = $ressource;
                     }

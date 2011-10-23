@@ -1,16 +1,19 @@
 <?php
-
-namespace WebSocket\Application;
-
 /**
  * Simple Echo WebSocket Application
  * 
  * @author Nico Kaiser <nico@kaiser.me>
  */
-class EchoApplication extends Application
+class WebSocket_Application_EchoApplication extends WebSocket_Application_ApplicationAbstract
 {
     private $clients = array();
-
+    
+    protected static $_applicationName = 'WebSocket_Application_EchoApplication';
+    
+    public static function getInstance() {        
+        return parent::getInstanceByClassName(self::$_applicationName);
+    }
+    
     public function onConnect($client)
     {
         $this->clients[] = $client;

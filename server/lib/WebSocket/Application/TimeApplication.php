@@ -1,18 +1,21 @@
 <?php
-
-namespace WebSocket\Application;
-
 /**
  * Simple Time sending WebSocket Application
  * 
  * @author Nico Kaiser <nico@kaiser.me>
  */
-class TimeApplication extends Application
+class WebSocket_Application_TimeApplication extends WebSocket_Application_ApplicationAbstract
 {
     private $clients = array();
     
     private $lastTime = 0;
+    
+    protected static $_applicationName = 'WebSocket_Application_TimeApplication';
 
+    public static function getInstance() {        
+        return parent::getInstanceByClassName(self::$_applicationName);
+    }
+    
     public function onConnect($client)
     {
         $this->clients[] = $client;

@@ -2,12 +2,13 @@
 
 error_reporting(E_ALL);
 
-require(__DIR__ . '/lib/SplClassLoader.php');
+//A class named MyLib_Foo_Bar is located in a file: lib1/MyLib/Foo/Bar.php
+require dirname(__FILE__) . '/Autoloader.php';
 
-$classLoader = new SplClassLoader('WebSocket', __DIR__ . '/lib');
-$classLoader->register();
+$auto_loader = new AutoLoader;
+$auto_loader->registerDirectory(dirname(__FILE__) . '/lib');
 
-$server = new \WebSocket\Server('localhost', 8000);
-$server->registerApplication('echo', \WebSocket\Application\EchoApplication::getInstance());
-$server->registerApplication('time', \WebSocket\Application\TimeApplication::getInstance());
+$server = new WebSocket_Server('localhost', 8000);
+$server->registerApplication('echo', WebSocket_Application_EchoApplication::getInstance());
+$server->registerApplication('time', WebSocket_Application_TimeApplication::getInstance());
 $server->run();
